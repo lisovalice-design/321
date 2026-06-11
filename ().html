@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAIKAL Travel — Сердце Сибири</title>
+    <!-- Подключение шрифта Manrope, который используется в стилях -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Переменные проекта под десктопную сетку Figma */
+        :root {
+            --primary-color: #0052CC; /* Акцентный синий */
+            --text-dark: #1A1A1A;
+            --text-muted: #666666;
+            --bg-light: #F4F7FC;
+            --white: #FFFFFF;
+            --gutter: 24px;
+            --margin-desktop: 120px;
+            --section-gap: 120px; /* Строгий шаг между разделами */
+            /* Прямая ссылка на фоновое изображение Байкала */
+            --image-url: url('photo-1551844931-cfcfecb3636f'); 
+        }
+
+        /* Общие сбросы */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Manrope', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        /* Сетка (Layout Grid) */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding-left: var(--margin-desktop);
+            padding-right: var(--margin-desktop);
+            width: 100%;
+        }
+
+        /* Декоративный паттерн на фоне всей страницы */
+        .bg-pattern {            
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(var(--primary-color) 0.5px, transparent 0.5px),
+                              radial-gradient(var(--primary-color) 0.5px, var(--white) 0.5px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            opacity: 0.02;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Кнопки */
+        .btn {
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 14px 28px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #003D99;
+            transform: translateY(-2px);
+        }
+
+        .btn-white {
+            background-color: var(--white);
+            color: var(--primary-color);
+        }
+
+        .btn-white:hover {
+            background-color: var(--bg-light);
+            transform: scale(1.05);
+        }
+
+        /* Заголовки секций */
+        .section-title {
+            font-size: 40px;
+            font-weight: 800;            
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        /* 1. ШАПКА */
+        .header {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .burger-menu {
+            display: none;
+            flex-direction: column;            
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .burger-menu span {
+            width: 24px;
+            height: 2px;
+            background-color: var(--text-dark);
+        }
+
+        /* ГЛАВНЫЙ ЭКРАН (Hero) */
+        .hero {
+            padding-top: 240px;
+            padding-bottom: 200px;
+            position: relative;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.95) 40%, rgba(255, 255, 255, 0.2) 100%), var(--image-url);
+            background-size: cover;
+            background-position: center right;
+            background-attachment: fixed;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--gutter);
+            align-items: center;
+        }
+
+        .hero-content {
+            grid-column: 1 / 8; /* Текст слева */
+        }
+
+        .hero-title {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #0A2540;
+        }
+
+        .icon-pine {
+            font-size: 36px;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            font-weight: 600;            
+            color: var(--primary-color);
+            margin-bottom: 24px;
+        }
+
+        .hero-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin-bottom: 40px;
+            max-width: 580px;
+        }
+
+        /* РАЗДЕЛ 2: ГАЛЕРЕЯ */
+        .gallery-section {
+            padding-top: var(--section-gap);
+            padding-bottom: var(--section-gap);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--gutter);
+        }
+
+        .gallery-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 82, 204, 0.06);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0, 82, 204, 0.12);
+        }
+
+        /* Обновленные стили контейнера под картинку */
+        .card-image {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+
+        .gallery-card:hover .card-image img {
+            transform: scale(1.06);
+        }
+
+        /* Эффект плитки (разная высота карточек) */        
+        .gallery-grid .gallery-card:nth-child(2n) .card-image { height: 260px; }
+        .gallery-grid .gallery-card:nth-child(3n) .card-image { height: 300px; }
+
+        /* Псевдоэлементы для сохранения эффекта тонирования поверх картинок */
+        .card-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            opacity: 0.4;
+        }
+
+        .img-ice::after { background-color: #74ebd5; }
+        .img-shaman-sunset::after { background-color: #ff9966; mix-blend-mode: color-burn; }
+        .img-nerpa::after { background-color: #bdc3c7; mix-blend-mode: multiply; }
+        .img-listvyanka::after { background-color: #4ca1af; mix-blend-mode: soft-light; }
+        .img-railway::after { background-color: #304352; mix-blend-mode: hard-light; }
+        .img-islands::after { background-color: #2b5876; mix-blend-mode: color-dodge; }
+        .img-olkhon::after { background-color: #ffd89b; }
+        .img-shaman-rock::after { background-color: #dbdbdb; mix-blend-mode: luminosity; }
+        .img-bay::after { background-color: #fe8c00; mix-blend-mode: soft-light; }
+        .img-winter-trek::after { background-color: #e6f2ff; mix-blend-mode: normal; }
+
+        .card-caption {
+            padding: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            background-color: var(--white);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* РАЗДЕЛ 3: ФАКТЫ И ЦЕНЫ */
+        .facts-section {
+            padding-top: var(--section-gap);
+            padding-bottom: var(--section-gap);
+            background-color: rgba(244, 247, 252, 0.5);
+            position: relative;
+        }
+
+        .decor-nerpa {
+            position: absolute;
+            font-size: 48px;
+            top: 40px;
+            right: var(--margin-desktop);
+            opacity: 0.15;
+            animation: swim 6s ease-in-out infinite;
+        }
+
+        @keyframes swim {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(-20px) translateY(10px); }
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);            
+            gap: var(--gutter);
+            margin-bottom: 64px;
+        }
+
+        .fact-card {
+            background-color: var(--white);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        .fact-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .fact-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .fact-card p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Блок цен */
+        .price-block {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(0, 82, 204, 0.08);
+        }
+
+        .price-title {
+            font-size: 24px;
+            margin-bottom: 24px;
+            font-weight: 800;
+        }
+
+        .price-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .price-item {
+            display: flex;
+            align-items: center;            
+            padding: 16px;
+            border-radius: 12px;
+            background-color: var(--bg-light);
+            transition: background 0.2s;
+        }
+
+        .price-item:hover {
+            background-color: #ebf1fa;
+        }
+
+        .price-icon {
+            font-size: 24px;
+            margin-right: 16px;
+        }
+
+        .price-item div {
+            flex-grow: 1;
+        }
+
+        .price-item h4 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .price-item p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .price-tag {
+            font-weight: 800;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        /* РАЗДЕЛ 4: РЕКЛАМНЫЙ БАННЕР */
+        .promo-section {
+            padding-top: var(--section-gap);
+            padding-bottom: var(--section-gap);
+        }
+
+        .promo-banner {
+            position: relative;
+            background: linear-gradient(135deg, rgba(0, 34, 72, 0.9) 0%, rgba(0, 82, 204, 0.8) 100%), var(--image-url);
+            background-size: cover;
+            background-position: center;
+            padding: 64px;
+            border-radius: 24px;
+            overflow: hidden;
+            color: var(--white);        
+        }
+
+        .promo-content {
+            max-width: 70%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 24px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .promo-text {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.3;
+        }
+
+        .promo-badge {
+            position: absolute;
+            top: 50%;
+            right: 64px;
+            transform: translateY(-50%) rotate(12deg);
+            background-color: #FF3366;
+            color: var(--white);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 28px;
+            box-shadow: 0 8px 24px rgba(255, 51, 102, 0.4);
+            z-index: 2;
+        }
+
+        /* ПОДВАЛ */
+        .footer {
+            background-color: #0F172A;
+            color: rgba(255,255,255,0.7);
+            padding-top: 64px;
+            padding-bottom: 40px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 48px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);            
+            padding-bottom: 40px;
+        }
+
+        .footer .logo {
+            color: var(--white);
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .copyright {
+            font-size: 14px;
+        }
+
+        .footer h4 {
+            color: var(--white);
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .footer-link {
+            display: block;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .footer-link:hover {
+            color: var(--white);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-link {
+            color: rgba(255,255,255,0.7);
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            color: var(--white);
+        }
+
+        /* ==========================================================================
+        📱 АДАПТИВ ДЛЯ ТЕЛЕФОНА
+        ========================================================================== */
+        @media (max-width: 768px) {            
+            :root {
+                --gutter: 16px;
+                --margin-desktop: 16px;
+                --section-gap: 80px;
+            }
+            .nav, .header .btn { display: none; }
+            .burger-menu { display: flex; }
+
+            .hero {
+                padding-top: 140px;
+                padding-bottom: 100px;
+                background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 60%, rgba(255, 255, 255, 0.6) 100%), var(--image-url);
+                background-attachment: scroll;
+            }
+
+            .hero-container { grid-template-columns: 1fr; }
+            .hero-content { grid-column: 1 / -1; }
+            .hero-title { font-size: 32px; }
+
+            .section-title { font-size: 28px; margin-bottom: 32px; }
+
+            .gallery-grid { grid-template-columns: 1fr; }
+            .gallery-grid .gallery-card:nth-child(n) .card-image { height: 220px; }
+
+            .facts-grid { grid-template-columns: 1fr; gap: 16px; }
+            .decor-nerpa { display: none; }
+
+            .price-block { padding: 24px; }
+            .price-item { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .price-tag { align-self: flex-end; }
+
+            .promo-banner { padding: 32px 24px; display: flex; flex-direction: column; gap: 32px; }
+            .promo-content { max-width: 100%; }
+            .promo-text { font-size: 22px; }
+            .promo-badge { position: static; transform: none; width: 70px; height: 70px; font-size: 18px; margin-bottom: 8px; }
+
+            .footer-container { grid-template-columns: 1fr; gap: 32px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+
+    <!-- 1. ШАПКА -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="#" class="logo">BAIKAL Travel</a>
+            <nav class="nav">
+                <a href="#" class="nav-link active">Главная</a>
+                <a href="#gallery" class="nav-link">Галерея</a>                
+                <a href="#facts" class="nav-link">Интересные факты</a>
+                <a href="#footer" class="nav-link">Контакты</a>
+            </nav>
+            <button class="btn btn-primary">Забронировать тур</button>
+            <div class="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ГЛАВНЫЙ ЭКРАН (Hero) -->
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Байкал — Сердце Сибири <span class="icon-pine"></span>
+                </h1>
+                <p class="hero-subtitle">Самое глубокое и чистое озеро планеты, основанное более 25 миллионов лет назад.</p>
+                <p class="hero-text">Байкал — это уникальная экосистема. Здесь сосредоточено около 20% мировой пресной воды. Место силы, первозданной природы и вечной красоты.</p>
+                <button class="btn btn-primary">Исследовать</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- РАЗДЕЛ 2: ГАЛЕРЕЯ -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Галерея великого озера</h2>
+            <div class="gallery-grid">
+                
+                <div class="gallery-card">
+                    <div class="card-image img-ice">
+                        <img src="https://images.unsplash.com/photo-1482862549707-f63cb32c5fd9?auto=format&fit=crop&w=600&q=80" alt="Лёд Байкала">
+                    </div>
+                    <div class="card-caption">Лёд Байкала (прозрачные торосы)</div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="card-image img-shaman-sunset">
+                        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80" alt="Закат на Ольхоне">
+                    </div>
+                    <div class="card-caption">Шаман-камень (закат на Ольхоне)</div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="card-image img-nerpa">
+                        <img src="https://avatars.mds.yandex.net/get-entity_search/11017462/1243859382/S600xU_2x" alt="Байкальская нерпа">
+                    </div>
+                    <div class="card-caption">Байкальская нерпа (милый тюлень)</div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="card-image img-listvyanka">
+                        <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80" alt="Листвянка">
+                    </div>
+                    <div class="card-caption">Листвянка (вид на исток Ангары)</div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="card-image img-railway">
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80" alt="КБЖД">
+                    </div>
+                    <div class="card-caption">Кругобайкальская железная дорога</div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="card-image img-islands">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80" alt="Ушканьи острова">
+                    </div>
+                    <div class="card-caption">Ушканьи острова (лежбище нерпы)</div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="card-image img-olkhon">
+                        <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=600&q=80" alt="Остров Ольхон">
+                    </div>
+                    <div class="card-caption">Остров Ольхон (мыс Бурхан)</div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="card-image img-shaman-rock">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80" alt="Скала Шаманка">
+                    </div>
+                    <div class="card-caption">Скала Шаманка (символ Байкала)</div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="card-image img-bay">
+                        <img src="https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?auto=format&fit=crop&w=600&q=80" alt="Бухта Песчаная">
+                    </div>
+                    <div class="card-caption">Бухта Песчаная (Женские и Мужские пальцы)</div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="card-image img-winter-trek">
+                        <img src="https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&w=600&q=80" alt="Зимний поход">
+                    </div>
+                    <div class="card-caption">Зимний лед (походы по байкальскому льду)</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- РАЗДЕЛ 3: ФАКТЫ И ЦЕНЫ -->
+    <section id="facts" class="facts-section">
+        <div class="decor-nerpa">🦭</div>
+        <div class="container">
+            <h2 class="section-title">Удивительные факты о Байкале</h2>
+            
+            <div class="facts-grid">
+                <div class="fact-card">
+                    <div class="fact-icon">💧</div>
+                    <h3>20% мировой пресной воды</h3>
+                    <p>В Байкале сосредоточено около 23 тысяч кубических километров чистой пресной воды — это больше, чем во всех Великих озерах Северной Америки вместе взятых.</p>
+                </div>
+
+                <div class="fact-card">
+                    <div class="fact-icon">🏔️</div>
+                    <h3>Самое глубокое озеро</h3>
+                    <p>Максимальная глубина Байкала достигает 1642 метров. Это делает его самым глубоким озером на планете и одним из древнейших — возраст оценивается в 25-35 миллионов лет.</p>
+                </div>
+
+                <div class="fact-card">
+                    <div class="fact-icon">🌡️</div>
+                    <h3>Уникальная экосистема</h3>
+                    <p>Более 80% видов животных и растений Байкала являются эндемиками — они не встречаются больше нигде в мире. Самый известный — байкальская нерпа.</p>
+                </div>
+            </div>
+
+            <!-- Блок цен -->
+            <div class="price-block">
+                <h3 class="price-title">Наши туры и цены</h3>
+                <div class="price-grid">
+                    
+                    <div class="price-item">
+                        <div class="price-icon">🏕️</div>
+                        <div>
+                            <h4>Экскурсия на Ольхон (1 день)</h4>
+                            <p>Поездка на остров, посещение мыса Бурхан, обед с местной кухней</p>
+                        </div>
+                        <div class="price-tag">от 4 500 ₽</div>
+                    </div>
+
+                    <div class="price-item">
+                        <div class="price-icon">🚂</div>
+                        <div>
+                            <h4>Кругобайкальская железная дорога</h4>
+                            <p>Исторический маршрут на ретро-поезде, 7 часов в пути, гид и обед включены</p>
+                        </div>
+                        <div class="price-tag">от 6 800 ₽</div>
+                    </div>
+
+                    <div class="price-item">
+                        <div class="price-icon">🦭</div>
+                        <div>
+                            <h4>Ушканьи острова (катер)</h4>
+                            <p>Наблюдение за нерпами в естественной среде, 6 часов на воде</p>
+                        </div>
+                        <div class="price-tag">от 8 500 ₽</div>
+                    </div>
+
+                    <div class="price-item">
+                        <div class="price-icon">❄️</div>
+                        <div>
+                            <h4>Зимний ледяной тур (3 дня)</h4>
+                            <p>Походы по прозрачному льду, фотосессия, проживание в глэмпинге</p>
+                        </div>
+                        <div class="price-tag">от 25 000 ₽</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- РАЗДЕЛ 4: РЕКЛАМНЫЙ БАННЕР -->
+    <section class="promo-section">
+        <div class="container">
+            <div class="promo-banner">
+                <div class="promo-content">
+                    <h2 class="promo-text">Забронируйте тур на лето 2026 и получите скидку на проживание!</h2>
+                    <button class="btn btn-white">Узнать подробнее</button>
+                </div>
+                <div class="promo-badge">-20%</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ПОДВАЛ -->
+    <footer id="footer" class="footer">
+        <div class="container footer-container">
+            <div>
+                <a href="#" class="logo">BAIKAL Travel</a>
+                <p class="copyright">© 2026 BAIKAL Travel. Все права защищены.<br>Организуем незабываемые путешествия к сердцу Сибири с 2010 года.</p>
+            </div>
+            
+            <div>
+                <h4>Навигация</h4>
+                <a href="#" class="footer-link">Главная</a>
+                <a href="#gallery" class="footer-link">Галерея</a>
+                <a href="#facts" class="footer-link">Интересные факты</a>
+                <a href="#" class="footer-link">Бронирование</a>
+            </div>
+            
+            <div>
+                <h4>Контакты</h4>
+                <a href="tel:+73952000000" class="footer-link">+7 (3952) 00-00-00</a>
+                <a href="mailto:info@baikaltravel.ru" class="footer-link">info@baikaltravel.ru</a>
+                <div class="social-icons">
+                    <a href="#" class="social-link">VK</a>
+                    <a href="#" class="social-link">Telegram</a>
+                    <a href="#" class="social-link">YouTube</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
